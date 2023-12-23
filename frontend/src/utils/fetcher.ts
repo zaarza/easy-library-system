@@ -8,6 +8,14 @@ const Axios = axios.create({
     },
 });
 
+export const validateToken = async () => {
+    await Axios.get('/user/validate', {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+};
+
 export const authRequestInterceptor = Axios.interceptors.request.use(
     (config) => {
         const token = getToken();
@@ -15,6 +23,7 @@ export const authRequestInterceptor = Axios.interceptors.request.use(
             window.location.replace('/login');
             return Promise.reject('Authentication required');
         }
+
         config.headers['Authorization'] = `Bearer ${token}`;
         return config;
     },
@@ -43,5 +52,10 @@ export const getLoggedIn = async (credentials: { username: string; password: str
     Axios.interceptors.response.eject(authResponseInterceptor);
 
     const response = await Axios.post('/api/users/login', credentials);
+    return response;
+};
+
+export const fetchCurrentUser = async () => {
+    const response = await Axios.get('/api/user');
     return response;
 };
