@@ -36,6 +36,7 @@ const MainLayout = () => {
                     bgColor='gray.100'
                     width='100%'
                     overflow='hidden'
+                    position='relative'
                 >
                     <Topbar toggleSidebar={setSidebar.toggle} />
                     <Outlet />

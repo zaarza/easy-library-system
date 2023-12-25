@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,11 @@ Route::post('/users/login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user', [UserController::class, 'me']);
   Route::get('/user/validate', [UserController::class, 'validateToken']);
+
+  Route::controller(BookController::class)->group(function () {
+    Route::get('/books', 'get');
+    Route::post('/books', 'post');
+    Route::delete('/books/{book}', 'delete');
+    Route::put('/books/{book}', 'put');
+  });
 });
